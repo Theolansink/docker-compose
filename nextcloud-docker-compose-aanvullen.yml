@@ -1,0 +1,49 @@
+version: '2'
+
+# Voeg hier het netwerk nextcloud-network toe
+networks:
+
+
+volumes:
+  nextcloud:
+  db:
+  config:
+  backup:
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+# koppel hier het volume db aan de directory /var/lib/mysql in de container
+
+
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+    networks:
+      - nextcloud-network
+
+  app:
+    image: nextcloud
+    restart: always
+    ports:
+      - 8888:80
+# Koppel hier de app nextcloud aan het netwerk nextcloud-network
+
+
+# geef hieronder aan dat deze container gelinked is aan de db container
+    links:
+      
+# koppel hieronder het volume nextcloud aan de directory /var/www/html in de container
+    volumes:
+      
+    environment:
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
+  
