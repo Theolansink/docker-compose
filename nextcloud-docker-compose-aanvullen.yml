@@ -7,8 +7,6 @@ networks:
 volumes:
   nextcloud:
   db:
-  config:
-  backup:
 
 services:
   db:
